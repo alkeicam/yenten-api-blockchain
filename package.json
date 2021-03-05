@@ -1,6 +1,6 @@
 {
   "name": "yenten-api-blockchain",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Yenten blockchain api client. Get and make Yenten transactions.",
   "main": "dist/yenten-api-client.umd.js",
   "types": "dist/yenten-api-client.d.ts",
@@ -41,7 +41,7 @@
   "author": "Al Keicam<alkeicam@yahoo.com>",
   "license": "MIT",
   "dependencies": {
-    "axios": "0.21.1"    
+    "axios": "0.21.1"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^6.1.0",
