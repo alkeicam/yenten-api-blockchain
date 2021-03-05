@@ -1,6 +1,6 @@
 {
   "name": "yenten-api-blockchain",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Yenten blockchain api client. Get and make Yenten transactions.",
   "main": "dist/yenten-api-client.umd.js",
   "types": "dist/yenten-api-client.d.ts",
