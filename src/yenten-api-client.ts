@@ -34,9 +34,9 @@ export interface SendTransactionResponse extends Response {
 
 export class YentenApiClient {
   appId?:string='guest';
-  host:string='85.10.203.186';
+  host:string='api.yenten.cf';
   port:string='21002';
-  protocol:string='http';
+  protocol:string='https';
   axiosClient:any={};
 
   init(appId?:string){
