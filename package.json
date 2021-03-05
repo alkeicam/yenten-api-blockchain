@@ -20,7 +20,7 @@
   },
   "scripts": {
     "docs": "typedoc && touch docs/.nojekyll",
-    "build:types": "tsc -t esnext --moduleResolution node -d --emitDeclarationOnly --outFile dist/yenten-api-blockchain.d.ts src/yenten-api-blockchain.ts && sed -i '' 's/declare module \"yenten-api-client\"/declare module \"ytn-vault\"/' dist/ytn-vault.d.ts",
+    "build:types": "tsc -t esnext --moduleResolution node -d --emitDeclarationOnly --outFile dist/yenten-api-blockchain.d.ts src/yenten-api-blockchain.ts",
     "build:js": "rollup -c rollup.config.js",
     "build:minjs:umd": "terser dist/yenten-api-blockchain.umd.js --compress --mangle > dist/yenten-api-blockchain.umd.min.js",
     "build:minjs:esm": "terser dist/yenten-api-blockchain.esm.js --compress --mangle > dist/yenten-api-blockchain.esm.min.js",
