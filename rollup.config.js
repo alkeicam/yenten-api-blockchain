@@ -4,14 +4,14 @@ import rollupJson from 'rollup-plugin-json'
 import commonjs from 'rollup-plugin-commonjs';
 
 export default {
-  input: 'src/yenten-api-client.ts',
+  input: 'src/yenten-api-blockchain.ts',
   output: [
     {
-      file: 'dist/yenten-api-client.esm.js',
+      file: 'dist/yenten-api-blockchain.esm.js',
       format: 'es',
     },
     {
-      file: 'dist/yenten-api-client.umd.js',
+      file: 'dist/yenten-api-blockchain.umd.js',
       format: 'umd',
       name: 'Yenten',
     },

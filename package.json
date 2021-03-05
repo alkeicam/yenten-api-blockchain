@@ -2,9 +2,9 @@
   "name": "yenten-api-blockchain",
   "version": "1.0.2",
   "description": "Yenten blockchain api client. Get and make Yenten transactions.",
-  "main": "dist/yenten-api-client.umd.js",
-  "types": "dist/yenten-api-client.d.ts",
-  "module": "dist/yenten-api-client.esm.min.js",
+  "main": "dist/yenten-api-blockchain.umd.js",
+  "types": "dist/yenten-api-blockchain.d.ts",
+  "module": "dist/yenten-api-blockchain.esm.min.js",
   "keywords": [
     "yenten",
     "blockchain",
@@ -14,16 +14,16 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/yenten-api-client.umd.min.js",
-      "import": "./dist/yenten-api-client.esm.min.js"
+      "require": "./dist/yenten-api-blockchain.umd.min.js",
+      "import": "./dist/yenten-api-blockchain.esm.min.js"
     }
   },
   "scripts": {
     "docs": "typedoc && touch docs/.nojekyll",
-    "build:types": "tsc -t esnext --moduleResolution node -d --emitDeclarationOnly --outFile dist/yenten-api-client.d.ts src/yenten-api-client.ts",
+    "build:types": "tsc -t esnext --moduleResolution node -d --emitDeclarationOnly --outFile dist/yenten-api-blockchain.d.ts src/yenten-api-blockchain.ts && sed -i '' 's/declare module \"yenten-api-client\"/declare module \"ytn-vault\"/' dist/ytn-vault.d.ts",
     "build:js": "rollup -c rollup.config.js",
-    "build:minjs:umd": "terser dist/yenten-api-client.umd.js --compress --mangle > dist/yenten-api-client.umd.min.js",
-    "build:minjs:esm": "terser dist/yenten-api-client.esm.js --compress --mangle > dist/yenten-api-client.esm.min.js",
+    "build:minjs:umd": "terser dist/yenten-api-blockchain.umd.js --compress --mangle > dist/yenten-api-blockchain.umd.min.js",
+    "build:minjs:esm": "terser dist/yenten-api-blockchain.esm.js --compress --mangle > dist/yenten-api-blockchain.esm.min.js",
     "build:minjs": "npm run build:minjs:esm -s && npm run build:minjs:umd -s",
     "build": "npm run build:js -s && npm run build:minjs -s && npm run build:types -s",
     "test": "env TS_NODE_PROJECT=\"tsconfig-test.json\" mocha -r ts-node/register **/test/**/*.test.ts",
