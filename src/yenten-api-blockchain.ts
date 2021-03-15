@@ -13,7 +13,7 @@ export interface Error {
 export interface UnspentTransaction {
   txid: string,
   vout: number,
-  amount: number
+  value: number
 }
 
 export interface UnspentTransactionResponse extends Response {
@@ -33,6 +33,7 @@ export interface SendTransactionResponse extends Response {
 }
 
 export class YentenApiClient {
+  prefix:string = '/blockchain';
   appId?:string='guest';
   host:string='api.yenten.cf';
   port:string='21002';
@@ -41,10 +42,10 @@ export class YentenApiClient {
 
   init(appId?:string){
     if(appId)
-      this.appId = appId
+      this.appId = appId    
   }
   _getURL(operation:string){
-    return this.protocol+"://"+this.host+":"+this.port+operation;
+    return this.protocol+"://"+this.host+":"+this.port+this.prefix+operation;
   }
 
   _getConfig(){
@@ -76,6 +77,28 @@ export class YentenApiClient {
       }
     })
   }
+
+  _callPost(url:string, data:any):Promise<Response>{
+    let that = this;
+    console.log('Requesting',url,that._getConfig());
+    return axios.post(url, data, that._getConfig())    
+    .then((value:AxiosResponse)=>{
+      if(value.status == 200){
+        let serverApiResponse:Response = value.data;         
+        return serverApiResponse;
+      }else{
+        let response:Response = {
+          error: {
+            code: 1,
+            message: 'Error requesting url: '+value.status+" "+value.statusText
+          },
+          data: {}
+        }
+        return response;
+      }
+    })
+  }
+
   /**
    * Returns list of txid and vouts that can be spent for given address provided that the address has enough balance
    * to pay full amount. If there is to little coins then error is returned.
@@ -85,17 +108,36 @@ export class YentenApiClient {
    */
   getUnspent(address:string, amount:number):Promise<UnspentTransactionResponse>{
     let that = this;
-    let url = that._getURL(`/getunspent/${address}/${amount}`);
-    return that._callGet(url);
+    let url = that._getURL(`/address/unspent/${address}/${amount}`);
+    return that._callGet(url).then((response:Response)=>{
+      if(response.error)
+        return Promise.reject(response.error.message);
+      let unspentTransactionResponse:UnspentTransactionResponse = {
+        data:{
+          address: address,
+          amount: amount,
+          sum: 0,
+          txs: response.data
+        }
+      }
+      let sum:number = 0;
+      // calculate sum
+      for(const unspent of unspentTransactionResponse.data.txs){
+        sum+=unspent.value
+      }
+      unspentTransactionResponse.data.sum = sum;
+      return unspentTransactionResponse;
+    });;
   }
+
   /**
    * Returns address balance (available coins).
    * @param address Target address which balance will be returned
-   * @returns {UnspentTransactionResponse} The address balance is in the data.sum field.
+   * @returns {Response} The address balance is in the data.balance field.
    */
-  getBalance(address:string):Promise<UnspentTransactionResponse>{
+  getBalance(address:string):Promise<Response>{
     let that = this;
-    let url = that._getURL(`/getbalance/${address}`);
+    let url = that._getURL(`/address/balance/${address}`);
     return that._callGet(url);
   }
 
@@ -108,8 +150,9 @@ export class YentenApiClient {
    */
   sendTransaction(orderId:string, transactionHex:string):Promise<SendTransactionResponse>{
     let that = this;
-    let url = that._getURL(`/sendrawtransaction/${orderId}/${transactionHex}`);
-    return that._callGet(url);    
+    // let url = that._getURL(`/sendrawtransaction/${orderId}/${transactionHex}`);
+    let url = that._getURL(`/transaction/${orderId}/${transactionHex}`);
+    return that._callPost(url, {transactionHex: transactionHex});    
   }
 }
 export const apiClient = new YentenApiClient();
