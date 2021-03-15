@@ -62,6 +62,7 @@ export class YentenApiClient {
     console.log('Requesting',url,that._getConfig());
     return axios.get(url,that._getConfig())
     .then((value:AxiosResponse)=>{
+      console.log('Axios response', value);
       if(value.status == 200){
         let serverApiResponse:Response = value.data;         
         return serverApiResponse;
@@ -75,6 +76,31 @@ export class YentenApiClient {
         }
         return response;
       }
+    })
+    .catch((error:any)=>{
+      let response:Response = {
+        error: {
+          code: 0,
+          message: ''
+        },
+        data: {}
+      }
+      if (error.response) { 
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx              
+        response.error!.code = 1;
+        response.error!.message = error.response.data.error || 'Error requesting - '+error.response.status;
+      }else if(error.request){
+        // The request was made but no response was received
+        response.error!.code = 2;
+        response.error!.message = 'Error requesting - no response';
+      }else{
+        response.error!.code = 3;
+        response.error!.message = 'Error requesting - '+error.message;
+      }
+
+      return response;
+
     })
   }
 
