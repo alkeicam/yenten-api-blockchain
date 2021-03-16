@@ -59,10 +59,10 @@ export class YentenApiClient {
 
   _callGet(url:string):Promise<Response>{
     let that = this;
-    console.log('Requesting',url,that._getConfig());
+    // console.log('Requesting',url,that._getConfig());
     return axios.get(url,that._getConfig())
     .then((value:AxiosResponse)=>{
-      console.log('Axios response', value);
+      // console.log('Axios response', value);
       if(value.status == 200){
         let serverApiResponse:Response = value.data;         
         return serverApiResponse;
@@ -106,7 +106,7 @@ export class YentenApiClient {
 
   _callPost(url:string, data:any):Promise<Response>{
     let that = this;
-    console.log('Requesting',url,that._getConfig());
+    // console.log('Requesting',url,that._getConfig());
     return axios.post(url, data, that._getConfig())    
     .then((value:AxiosResponse)=>{
       if(value.status == 200){
