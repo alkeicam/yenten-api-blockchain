@@ -157,6 +157,17 @@ export class YentenApiClient {
   }
 
   /**
+   * Retrieves address transactions
+   * @param address Target address which transactions will be returned
+   * @returns {Response} The address transactions in data field
+   */
+  getTransactions(address:string):Promise<Response>{
+    let that = this;
+    let url = that._getURL(`/address/spendables/${address}`);
+    return that._callGet(url);
+  }
+
+  /**
    * Returns address balance (available coins).
    * @param address Target address which balance will be returned
    * @returns {Response} The address balance is in the data.balance field.
