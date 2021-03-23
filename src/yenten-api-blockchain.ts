@@ -188,7 +188,7 @@ export class YentenApiClient {
   sendTransaction(orderId:string, transactionHex:string):Promise<SendTransactionResponse>{
     let that = this;
     // let url = that._getURL(`/sendrawtransaction/${orderId}/${transactionHex}`);
-    let url = that._getURL(`/transaction/${orderId}/${transactionHex}`);
+    let url = that._getURL(`/transaction/${orderId}`);
     return that._callPost(url, {transactionHex: transactionHex});    
   }
 }
