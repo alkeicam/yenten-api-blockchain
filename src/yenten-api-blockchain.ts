@@ -13,7 +13,11 @@ export interface Error {
 export interface UnspentTransaction {
   txid: string,
   vout: number,
-  value: number
+  value: number,
+  tex?: {
+    hex: string,
+    sphex: string
+  }
 }
 
 export interface UnspentTransactionResponse extends Response {
