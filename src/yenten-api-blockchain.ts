@@ -195,5 +195,16 @@ export class YentenApiClient {
     let url = that._getURL(`/transaction/${orderId}`);
     return that._callPost(url, {transactionHex: transactionHex});    
   }
+
+  /**
+   * Retrieves transaction header for given transaction id. When none 
+   * @param txid transaction id to load
+   * @returns {Response} Transaction data is returned in data field when found, otherwise error field is returned.
+   */
+  getTransaction(txid:string):Promise<Response>{
+    let that = this;
+    const url = that._getURL(`/transaction/${txid}`);
+    return that._callGet(url);
+  }
 }
 export const apiClient = new YentenApiClient();
