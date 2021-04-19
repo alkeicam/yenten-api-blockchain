@@ -39,7 +39,7 @@ export interface SendTransactionResponse extends Response {
 export class YentenApiClient {
   prefix:string = '/blockchain';
   appId?:string='guest';
-  host:string='api.yenten.cf';
+  host:string='api.yenten.io';
   port:string='21002';
   protocol:string='https';
   axiosClient:any={};
@@ -206,5 +206,16 @@ export class YentenApiClient {
     const url = that._getURL(`/transaction/${txid}`);
     return that._callGet(url);
   }
+
+  /**
+   * Retrieves current fiat exchange rates
+   * @returns {Response} Exchange rate data is returned
+   */
+  getExchangeRates():Promise<Response>{
+    let that = this;
+    const url = that._getURL(`/exchange/rates`);
+    return that._callGet(url);
+  }
+
 }
 export const apiClient = new YentenApiClient();
