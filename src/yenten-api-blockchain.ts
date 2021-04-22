@@ -217,5 +217,16 @@ export class YentenApiClient {
     return that._callGet(url);
   }
 
+  /**
+   * Checks if valid is a valid yenten address
+   * @param address Target address
+   * @returns {Promise<Response>} Address validation result
+   */
+  isAddressValid(address:string):Promise<Response>{
+    let that = this;
+    const url = that._getURL(`/address/validate/${address}`);
+    return that._callGet(url);
+  }
+
 }
 export const apiClient = new YentenApiClient();
